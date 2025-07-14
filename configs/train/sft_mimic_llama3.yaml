@@ -1,0 +1,58 @@
+# SFT Training Configuration for MIMIC-CXR Dataset
+# Model: Meta-Llama-3-8B-Instruct
+# Supervised Fine-Tuning for Medical Impression Generation
+
+# Model and paths
+model_path: "meta-llama/Llama-3.2-3B-Instruct"
+run_name: "sft_mimic_llama3_3b"
+save_path: "./sft_checkpoints/mimic_llama3_3b"
+
+# Dataset configuration
+dataset_path: "/home/local/PARTNERS/yz646/tianyang/mimic"
+train_file: "/home/local/PARTNERS/yz646/tianyang/mimic/mimic_train.csv"
+test_file: "/home/local/PARTNERS/yz646/tianyang/mimic/mimic_test.csv"
+
+# Training parameters
+num_epochs: 1
+learning_rate: 0.00001
+max_steps: 8000  # Set to -1 to use num_epochs
+
+# Batch size and gradient accumulation
+per_device_train_batch_size: 4
+per_device_eval_batch_size: 8
+gradient_accumulation_steps: 4  # Effective batch size = 4 * 4 = 16
+
+# Sequence length
+max_seq_length: 1024  # Maximum sequence length for SFT
+
+# Data sampling
+max_samples: -1  # Set to -1 for all samples, or a number to limit training data
+seed: 42
+
+# Logging and evaluation
+log_interval: 100
+eval_interval: 1000  # Set to -1 to disable evaluation
+save_interval: 5000
+save_total_limit: 3
+
+# Resume training
+resume_last: false
+
+# Optimization settings
+optimizer: "adamw_torch"
+lr_scheduler_type: "cosine"
+warmup_ratio: 0.1
+weight_decay: 0.01
+
+# Memory optimization
+gradient_checkpointing: true
+bf16: true
+fp16: false
+dataloader_num_workers: 4
+device_map_auto: true
+
+# Hardware optimization
+use_flash_attention: true
+
+# SFT specific settings
+packing: false  # Set to true for better GPU utilization, false for simpler debugging

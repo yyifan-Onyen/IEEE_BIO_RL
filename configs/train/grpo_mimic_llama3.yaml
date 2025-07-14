@@ -1,0 +1,67 @@
+# GRPO Training Configuration for MIMIC-CXR Dataset
+# Model: Meta-Llama-3-8B-Instruct
+
+# Model and paths
+model_path: "meta-llama/Llama-3.2-3B-Instruct"
+run_name: "grpo_mimic_llama3_3b"
+save_path: "./grpo_checkpoints/mimic_llama3_3b"
+
+# Dataset configuration
+dataset_path: "/home/local/PARTNERS/yz646/tianyang/mimic"
+train_file: "/home/local/PARTNERS/yz646/tianyang/mimic/mimic_train.csv"
+test_file: "/home/local/PARTNERS/yz646/tianyang/mimic/mimic_test.csv"
+
+# Training parameters
+num_epochs: 1
+learning_rate: 0.00001
+kl_weight: 0.1  # Beta parameter for KL divergence penalty
+
+# Batch size and sampling
+train_batch_size: 2
+eval_batch_size: 4
+num_devices: 1
+num_samples_per_device: 2
+num_samples_per_prompt: 2
+
+# Sequence lengths
+max_prompt_length: 512
+max_completion_length: 128
+# Data sampling
+max_samples: 8000 # Set to -1 for all samples, or a number to limit training data
+seed: 42
+
+# Logging and evaluation
+log_interval: 100
+eval_interval: 1000
+save_interval: 5000
+
+# Resume training
+resume_last: false
+
+# Reward function weights for multiple metrics
+# These weights should sum to approximately 1.0
+reward_weights:
+  bleu1: 0.15      # BLEU-1 score weight
+  bleu4: 0.15      # BLEU-4 score weight
+  rouge1: 0.15     # ROUGE-1 F1 score weight
+  rouge2: 0.15     # ROUGE-2 F1 score weight
+  rougeL: 0.15     # ROUGE-L F1 score weight
+  meteor: 0.15     # METEOR score weight
+  bert_f1: 0.10    # BERTScore F1 weight
+
+# Advanced training settings
+gradient_checkpointing: true
+fp16: false
+bf16: true
+dataloader_num_workers: 4
+
+# Generation parameters for inference during training
+generation:
+  temperature: 0.7
+  top_p: 0.9
+  do_sample: true
+  max_new_tokens: 256
+
+# Hardware optimization
+torch_compile: false
+use_flash_attention: true 

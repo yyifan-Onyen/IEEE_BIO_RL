@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyTorch模型文件
+*.pth
+*.pt
+*.safetensors
+*.bin
+*.model
+
+# 模型检查点目录（这些文件很大）
+*_checkpoints/
+grpo_checkpoints/
+sft_checkpoints/
+
+# 数据文件（通常很大）
+*.csv
+*.json
+*.parquet
+*.h5
+*.hdf5
+mimic/
+
+# 评估结果（可选择性忽略）
+evaluation_results/
+
+# 日志文件
+*.log
+logs/
+wandb/
+tensorboard_logs/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 环境文件
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# CUDA相关
+*.cuda
+*.cudnn
+
+# 其他大文件
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z 

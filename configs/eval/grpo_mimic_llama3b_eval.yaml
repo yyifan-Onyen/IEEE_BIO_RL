@@ -1,0 +1,76 @@
+# Configuration for LLaMA model evaluation on MIMIC-CXR dataset
+# Supports BLEU, ROUGE, METEOR, CIDEr, and BERTScore metrics
+
+run_name: "mimic_llama3_3b_grpo_eval"
+
+# Model configuration
+model:
+  name: "/home/local/PARTNERS/yz646/tianyang/grpo_checkpoints/mimic_llama3_3b"  # Can be changed to other LLaMA variants
+  use_fp16: true  # Use half precision to save memory
+  device_map: "auto"  # Automatically distribute model across available GPUs
+  trust_remote_code: true
+
+# Data configuration
+data:
+  test_file: "/home/local/PARTNERS/yz646/tianyang/mimic/mimic_test.csv"
+  
+# Text generation parameters
+generation:
+  use_chat_template: true
+  max_input_length: 1024  # Maximum input sequence length
+  max_new_tokens: 256     # Maximum number of new tokens to generate
+  temperature: 0.7        # Sampling temperature (0.0 = deterministic, 1.0 = random)
+  do_sample: true         # Whether to use sampling or greedy decoding
+  top_p: 0.9             # Nucleus sampling parameter
+  
+
+metrics:
+  bleu:
+    compute_bleu1: true
+    compute_bleu4: true
+    smoothing_function: "method4"  # Smoothing function for BLEU
+
+  rouge:
+    compute_rouge1: true
+    compute_rouge2: true
+    compute_rougeL: true
+    use_stemmer: true
+  
+
+  meteor:
+    compute_meteor: true
+  
+
+  cider:
+    compute_cider: true
+  
+
+  bert_score:
+    compute_bert_score: true
+    model_type: "microsoft/deberta-xlarge-mnli"  # Model for BERTScore computation
+    lang: "en"
+
+
+output:
+  save_dir: "./evaluation_results"
+  save_individual_scores: true
+  save_summary: true
+  save_csv: true
+  
+
+evaluation:
+  batch_size: 1  
+  max_samples: null  
+  verbose: true
+  save_predictions: true  
+
+
+hardware:
+  use_cuda: true
+  gpu_memory_fraction: 0.9  
+  cpu_threads: 4
+  
+logging:
+  level: "INFO"
+  save_logs: true
+  log_file: "./evaluation_results/evaluation.log"
